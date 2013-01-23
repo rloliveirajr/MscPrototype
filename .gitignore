@@ -18,7 +18,7 @@ develop-eggs
 lib
 lib64
 tmp
-result
+results
 dataset
 data
 
