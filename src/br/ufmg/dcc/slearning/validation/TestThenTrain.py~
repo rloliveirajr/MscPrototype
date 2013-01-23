@@ -1,0 +1,129 @@
+'''
+Created on Oct 26, 2012
+
+@author: rloliveirajr
+'''
+
+from br.ufmg.dcc.slearning.approach.IsmaelApproach import IsmaelApproach
+from br.ufmg.dcc.slearning.util.Util import read_file, write_file
+from br.ufmg.dcc.slearning.approach.RobertoApproach import RobertoApproach
+from br.ufmg.dcc.slearning.approach.CombineWindowsApproach import CombineWindowsApproach
+from br.ufmg.dcc.slearning.validation.Evaluate import Evaluate
+from br.ufmg.dcc.slearning.util.timer import Timer
+from br.ufmg.dcc.slearning.approach.RandomCWA import RandomCWA
+from br.ufmg.dcc.slearning.approach import CWA2Way
+
+class TestThenTrain:
+  
+    class Classifiers:
+	CLASSIFIER_ISMAEL = 1
+	CLASSIFIER_ROBERTO = 2
+	CLASSIFIER_CWA = 3
+	CLASSIFIER_RANDOM_CWA = 4
+	CLASSIFIER_CWA_2_WAY= 5
+    '''
+        Esta classe executa a avaliacao do metodo proposto utlizando o
+        Interleaved Test-Then-Train
+    '''
+    def __init__(self, nclasses, data, resource, temp_dir, dataset, results, classifier_opt):
+        '''
+            Construtor da classe
+            
+            @param nclasses: Numero de classes
+            @param data_path: Arquivo que contem os dados
+            @param resource_path: Diretorio onde o arquivo do LAC compilado esta
+        '''
+        self.nclasses = nclasses
+        self.data = read_file(data)
+        self.resource = resource
+        self.temp_dir = temp_dir
+        self.classifier_opt = classifier_opt
+        self.result_dir = results;
+        self.classifier = None
+        self.dataset = dataset
+        
+    def _select_classifier(self, train, rule_size, seed):
+	self.classifier_opt = int(self.classifier_opt)
+        
+        if self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_ISMAEL:
+            self.classifier = IsmaelApproach(train=train, resource=self.resource, nclasses=self.nclasses, rule_size=rule_size, temp_dir=self.temp_dir)
+            return "ismael"
+        
+        elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_ROBERTO:
+            self.classifier = RobertoApproach(train=train, resource=self.resource, nclasses=self.nclasses, rule_size=rule_size, temp_dir=self.temp_dir)
+            return "roberto"
+        
+        elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_CWA:
+            seed_start = int(seed * len(self.data))
+            
+            self.classifier = CombineWindowsApproach(train=train, resource=self.resource, nclasses=self.nclasses, rule_size=rule_size, temp_dir=self.temp_dir, min_train_size=seed_start)
+            return "cwa"
+        
+        elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_RANDOM_CWA:
+	    seed_start = int(seed * len(self.data))
+	    
+            self.classifier = RandomCWA(train=train, resource=self.resource, nclasses=self.nclasses, rule_size=rule_size, temp_dir=self.temp_dir, min_train_size=seed_start)
+            return "random_cwa"
+        
+        elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_CWA_2_WAY:
+	    seed_start = int(seed * len(self.data))
+	    
+	    self.classifier = CWA2Way(train=train, resource=self.resource, nclasses=self.nclasses, rule_size=rule_size, temp_dir=self.temp_dir, min_train_size=seed_start)
+            return "cwa_2_way"
+        
+        else:
+            raise "Classifier not found."
+        
+    def run(self, seed, rule_size=7):
+        '''
+            Este metodo executa o metodo de avaliacao: Test-Then-Train.
+            
+            @param train_start_window_size: Inteiro que representa o tamanho
+                inicial da janela de treino.
+            @param rule_size: Inteiro que representa o tamanho maximo das
+                regras geradas pelo LAC.
+            @param reliability: Real que representa a confianca minima para
+                que uma predicao seja aceita.
+        '''        
+        
+        #Extrai o conjunto de treino inicial
+        seed_start = int(seed * len(self.data))
+        train_begin = 0
+        train_end = train_begin + seed_start
+        
+        train_ex = self.data[train_begin:train_end]
+        
+        #Utiliza os dados restantes como teste
+        test_ex = self.data[train_end:len(self.data)]
+
+        classifier = self._select_classifier(train=train_ex, rule_size=rule_size, seed=seed)
+        print "Classifier choosen: {0}".format(classifier)
+        time = []
+        
+        _eval = Evaluate(classifier)
+
+        _file = "%sresult_%s_%s.csv" % (self.result_dir, classifier, self.dataset)
+        total = 1
+        
+        write_file(_file, Evaluate.fields, "a")
+        
+        timestamp = 1
+        #Executa o processamento para cada transacao de test
+        #utilizando chunks = 1    
+        timer = Timer()
+        for test_instance in test_ex:
+                       
+            print "\rProcessing: %d/%d\r" % (total,len(test_ex))
+            
+            timer = Timer()
+            timer.start()
+            processed = self.classifier.process(test_instance)
+            timer.end()
+            time.append(timer.interval)
+            
+            line = _eval.eval(self.classifier.train_transactions, processed, timer.interval)
+            
+            write_file(_file, line, "a")
+
+            total += 1
+            timestamp += 1
