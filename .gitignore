@@ -17,6 +17,10 @@ develop-eggs
 .installed.cfg
 lib
 lib64
+tmp
+result
+dataset
+data
 
 # Installer logs
 pip-log.txt
@@ -33,3 +37,9 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Data Types
+.csv
+.lac
+.csv~
+.lac~
