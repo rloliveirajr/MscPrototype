@@ -43,3 +43,14 @@ nosetests.xml
 .lac
 .csv~
 .lac~
+*.*~
+addedValue
+certainty
+confidence
+out
+prediction
+strenghScore
+support
+weightedRelativeConfidence
+yulesQ
+yulesY
