@@ -50,8 +50,8 @@ class LacSlidingWindow(object):
         self.score_max = float(params["score_max"])
         
         tmp_dir = params["tmp_dir"]
-        self.test_file = "%s/data/lacSlidingWindow_test.lac" % (tmp_dir)
-        self.train_file = "%s/data/lacSlidingWindow_train.lac" % (tmp_dir)
+        self.test_file = "%s/lacSlidingWindow_test.lac" % (tmp_dir)
+        self.train_file = "%s/lacSlidingWindow_train.lac" % (tmp_dir)
         
     def trainingOnInstance(self, stream_transaction):
         self.timestamp += 1

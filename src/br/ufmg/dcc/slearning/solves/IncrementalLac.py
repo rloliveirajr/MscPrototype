@@ -34,8 +34,8 @@ class IncrementalLac(object):
         self.support = float(params["support"])
         
         tmp_dir = params["tmp_dir"]
-        self.test_file = "%s/data/incrementalLac_test.lac" % (tmp_dir)
-        self.train_file = "%s/data/incrementalLac_train.lac" % (tmp_dir)
+        self.test_file = "%s/incrementalLac_test.lac" % (tmp_dir)
+        self.train_file = "%s/incrementalLac_train.lac" % (tmp_dir)
         
     def trainingOnInstance(self, stream_transaction):
         

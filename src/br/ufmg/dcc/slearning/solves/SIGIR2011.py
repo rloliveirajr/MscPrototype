@@ -37,8 +37,8 @@ class SIGIR2011(object):
         self.max_timestamp = float(params["max_timestamp"])
         
         tmp_dir = params["tmp_dir"]
-        self.test_file = "%s/data/sigir2011_test.lac" % (tmp_dir)
-        self.train_file = "%s/data/sigir2011_train.lac" % (tmp_dir)
+        self.test_file = "%s/sigir2011_test.lac" % (tmp_dir)
+        self.train_file = "%s/sigir2011_train.lac" % (tmp_dir)
         
     def trainingOnInstance(self, stream_transaction):
 

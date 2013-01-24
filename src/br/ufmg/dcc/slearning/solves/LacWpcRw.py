@@ -36,9 +36,9 @@ class LacWpcRw(object):
         self.is_random = params["is_random"]
         
         tmp_dir = params["tmp_dir"]
-        self.test_file = "%s/data/lacWpcRw_test.lac" % (tmp_dir)
-        self.train_file_1 = "%s/data/lacWpcRw_train_1.lac" % (tmp_dir)
-        self.train_file_2 = "%s/data/lacWpcRw_train_2.lac" % (tmp_dir)
+        self.test_file = "%s/lacWpcRw_test.lac" % (tmp_dir)
+        self.train_file_1 = "%s/lacWpcRw_train_1.lac" % (tmp_dir)
+        self.train_file_2 = "%s/lacWpcRw_train_2.lac" % (tmp_dir)
         
     def trainingOnInstance(self, stream_transaction):
         self.window_1.append(stream_transaction)

@@ -1,26 +1,33 @@
+#/bin/bash
+dataset_path=$1
+dataset=$2
+resource=$3
+result=$4
+tmp=$5
+
 Algoritmo SIGIR2011
-python main.py -c 7 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01 --confidence 0.01 --support 0.01 --min_confidence 0.7 --max_timestamp 5
+python main.py -c 7 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01 --confidence 0.01 --support 0.01 --min_confidence 0.7 --max_timestamp 5
 
 Algoritmo SBBD 2011
-python main.py -c 6 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01 --confidence 0.01 --support 0.01 --is_fixed False --score_max 0.01 --window_size 100
+python main.py -c 6 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01 --confidence 0.01 --support 0.01 --is_fixed False --score_max 0.01 --window_size 100
 
 Algoritmo LAC Sliding Window
-python main.py -c 6 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01 --confidence 0.01 --support 0.01 --is_fixed True --score_max 0.01 --window_size 100
+python main.py -c 6 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01 --confidence 0.01 --support 0.01 --is_fixed True --score_max 0.01 --window_size 100
 
 Algoritmo Extended Lac-Wcpc
-python main.py -c 5 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01
+python main.py -c 5 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01
 
 Algoritmo Lac-Wcpc
-python main.py -c 3 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01
+python main.py -c 3 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01
 
 Algoritmo Lac-WpcRw: Random
-python main.py -c 4 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01 --is_random True --size_window -1
+for i in $(seq 10); do $(python main.py -c 4 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01 --is_random True --size_random -1); done
 
 Algoritmo Lac-WpcRw: Fixed
-python main.py -c 4 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01 --is_random False --size_windo 100
+for i in $(seq 10); do $(python main.py -c 4 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01 --is_random False --size_random 25); done
 
 Algoritmo Lac-Wpc
-python main.py -c 2 -f /home/rloliveirajr/Workspace/python/Msc/dataset/felipemeloIngles.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01
+python main.py -c 2 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --tmp_dir $tmp --seed 0.01
 
 Algoritmo Lac-Incremental
-python main.py -c 1 -f /home/rloliveirajr/Workspace/python/Msc/dataset/eleicoesPresidenciaisDilma.lac -o /home/rloliveirajr/Workspace/python/Msc/results/ -d felipemeloIngles --resource /home/rloliveirajr/Workspace/python/Msc/resource --nclasses 2 --rules_size 3 --confidence 0.1 --support 0.1 --tmp_dir /home/rloliveirajr/Workspace/python/Msc/tmp --seed 0.01
+python main.py -c 1 -f $dataset_path -o $result -d $dataset --resource $resource --nclasses 2 --rules_size 3 --confidence 0.1 --support 0.1 --tmp_dir $tmp --seed 0.01

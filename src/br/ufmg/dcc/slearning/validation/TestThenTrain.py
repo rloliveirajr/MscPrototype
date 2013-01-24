@@ -61,7 +61,9 @@ class TestThenTrain:
         
         elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_LAC_WPCRW:
             self.classifier = LacWpcRw()
-            return "LacWpcRw"
+            if self.params["is_random"] == "False":
+                return "LacWpcRw_Fixed_%s" % self.params["size_random"]
+            return "LacWpcRw_Random"
         
         elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_EXTENDED_LAC_WCPC:
             self.classifier = ExtendedLacWcpc()
@@ -69,6 +71,8 @@ class TestThenTrain:
         
         elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_LAC_SLIDING_WINDOW:
             self.classifier = LacSlidingWindow()
+            if self.params["is_fixed"] == "False":
+                return "SBBD2011"
             return "LacSlidingWindow"
         
         elif self.classifier_opt == TestThenTrain.Classifiers.CLASSIFIER_SIGIR_2011:

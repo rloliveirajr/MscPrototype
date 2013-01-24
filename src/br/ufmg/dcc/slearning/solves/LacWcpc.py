@@ -31,9 +31,9 @@ class LacWcpc(object):
         self.rules_size = int(params["rules_size"])
         
         tmp_dir = params["tmp_dir"]
-        self.test_file = "%s/data/roberto_test.lac" % (tmp_dir)
-        self.train_file_1 = "%s/data/lacWcpc_train_1.lac" % (tmp_dir)
-        self.train_file_2 = "%s/data/lacWcpc_train_2.lac" % (tmp_dir)
+        self.test_file = "%s/roberto_test.lac" % (tmp_dir)
+        self.train_file_1 = "%s/lacWcpc_train_1.lac" % (tmp_dir)
+        self.train_file_2 = "%s/lacWcpc_train_2.lac" % (tmp_dir)
         
     def trainingOnInstance(self, stream_transaction):
         self.window_1.append(stream_transaction)
